@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,7 +16,7 @@ namespace HoldingDetails
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Holding", action = "Holding", id = UrlParameter.Optional },
+                defaults: new { controller = "Holding", action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "HoldingDetails.Controllers" }
             );
         }

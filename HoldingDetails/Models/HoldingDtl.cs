@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace HoldingDetails.Models
 {
-    public class HoldingResponce
+    public class HoldingResponse
     {
         [JsonProperty("request_id")]
         public string RequestId { get; set; }
@@ -48,7 +48,7 @@ namespace HoldingDetails.Models
         public string[] InitialProducts { get; set; }
     }
 
-    public class PublicTokenResponce
+    public class PublicTokenResponse
     {
         [JsonProperty("public_token")]
         public string PublicToken { get; set; }
@@ -69,7 +69,7 @@ namespace HoldingDetails.Models
         public string Secret { get; set; }
     }
 
-    public class PublicTokenExchangeResponce
+    public class PublicTokenExchangeResponse
     {
         [JsonProperty("access_token")]
         public string AccessToken { get; set; }
@@ -117,7 +117,7 @@ namespace HoldingDetails.Models
         public User User { get; set; }
     }
 
-    public class LinkTokenResponce
+    public class LinkTokenResponse
     {
         [JsonProperty("link_token")]
         public string LinkToken { get; set; }
