@@ -45,7 +45,7 @@ namespace HoldingDetails.BL
                 obj.Secret = Secret;
                 obj.ClientName = "Plaid App";
                 obj.User = new User {ClientUserId = "test_user" };
-                obj.Products = new string[] { "auth","investments" };
+                obj.Products = new string[] { "auth"};
                 obj.CountryCodes = new string[] { "GB","US" };
                 obj.Language = "en";
 
