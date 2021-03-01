@@ -45,7 +45,7 @@ namespace HoldingDetails.BL
                 obj.Secret = Secret;
                 obj.ClientName = "Plaid App";
                 obj.User = new User {ClientUserId = "test_user" };
-                obj.Products = new string[] { "auth","investments" };
+                obj.Products = new string[] { "auth"};
                 obj.CountryCodes = new string[] { "GB","US" };
                 obj.Language = "en";
 
@@ -62,7 +62,7 @@ namespace HoldingDetails.BL
 
         public HoldingResponse GetHoldings(string public_Token)
         {
-            HoldingResponse HoldingDtl = null;
+            HoldingResponse HoldingDtl = new HoldingResponse();
 
             try
             {
@@ -84,15 +84,20 @@ namespace HoldingDetails.BL
 
                 IRestResponse response2 = RestCall(string.Format("{0}/item/public_token/exchange", ApiUrl), objExPrm);
                 PublicTokenExchangeResponse publicTokenEx = JsonConvert.DeserializeObject<PublicTokenExchangeResponse>(response2.Content);
+                if (String.IsNullOrEmpty(publicTokenEx.ErrorCode))
+                {
+                    HoldingReqParam objHoldPrm = new HoldingReqParam();
+                    objHoldPrm.ClientId = ClientId;
+                    objHoldPrm.Secret = Secret;
+                    objHoldPrm.AccessToken = publicTokenEx.AccessToken;
 
-
-                HoldingReqParam objHoldPrm = new HoldingReqParam();
-                objHoldPrm.ClientId = ClientId;
-                objHoldPrm.Secret = Secret;
-                objHoldPrm.AccessToken = publicTokenEx.AccessToken;
-
-                IRestResponse response3 = RestCall(string.Format("{0}/investments/holdings/get", ApiUrl), objHoldPrm);
-                HoldingDtl = JsonConvert.DeserializeObject<HoldingResponse>(response3.Content);
+                    IRestResponse response3 = RestCall(string.Format("{0}/investments/holdings/get", ApiUrl), objHoldPrm);
+                    HoldingDtl = JsonConvert.DeserializeObject<HoldingResponse>(response3.Content);
+                }
+                else
+                {
+                    HoldingDtl.ErrorMessage = publicTokenEx.ErrorMessage;
+                }
             }
             catch (Exception ex)
             {

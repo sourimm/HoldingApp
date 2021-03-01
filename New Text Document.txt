@@ -1,0 +1,18 @@
+DB:
+====
+
+user: id, email, password, fname, lname
+
+connection: id, userid, insid, insname, publictoken
+
+
+
+Site:
+=====
+
+1.) Login
+2.) Connection Page:
+    a) Dropdown ==> connections
+    b) Go button
+    c) Add New Connection button on top
+    d) Click on "Go", grid of holdings will be shown 

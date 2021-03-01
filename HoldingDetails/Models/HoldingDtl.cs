@@ -3,13 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace HoldingDetails.Models
 {
-    public class HoldingResponse
+    public class ActionClass : tblInstance
+    {
+        public int Id { get; set; }
+        public String Action { get; set; }
+    }
+        public class HoldingResponse
     {
         [JsonProperty("request_id")]
         public string RequestId { get; set; }
+
+        [JsonProperty("error_code")]
+        public string ErrorCode { get; set; }
+
+        [JsonProperty("error_message")]
+        public string ErrorMessage { get; set; }
+
         public List<Holding> holdings = new List<Holding>();
     }
 
@@ -79,6 +92,11 @@ namespace HoldingDetails.Models
 
         [JsonProperty("request_id")]
         public string RequestId { get; set; }
+        [JsonProperty("error_code")]
+        public string ErrorCode { get; set; }
+
+        [JsonProperty("error_message")]
+        public string ErrorMessage { get; set; }
     }
 
     public class HoldingReqParam
@@ -131,4 +149,6 @@ namespace HoldingDetails.Models
         [JsonProperty("client_user_id")]
         public string ClientUserId { get; set; }
     }
-}
+
+
+    }

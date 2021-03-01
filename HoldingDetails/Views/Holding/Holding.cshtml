@@ -7,9 +7,15 @@
 <script src="~/Scripts/jquery.tablesorter.min.js"></script>
 <script src="~/Scripts/jquery.tablesorter.widgets.min.js"></script>
 <link href="~/Content/theme.blue.css" rel="stylesheet" />
-<div class="col-md-12" style="text-align:right; height:30px;">
+@*<div class="col-md-12" style="text-align:right; height:30px;">
     @Html.ActionLink("Add Connection", "AddConnection", null, new { @class = "btn btn-default" })
-</div>
+</div>*@
+@{ 
+    if(TempData.ContainsKey("error"))
+    {
+        <div>@TempData["error"].ToString() </div>
+    }
+}
 <table id="holdingTable" class="tablesorter">
     <thead>
         <tr>

@@ -1,0 +1,84 @@
+﻿@model HoldingDetails.Models.tblUser
+@{
+    ViewBag.Title = "Login";
+}
+<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
+
+    table {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+    }
+
+        table th {
+            background-color: #F7F7F7;
+            color: #333;
+            font-weight: bold;
+        }
+
+        table th, table td {
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+        .center{
+            position:absolute;
+            top:40%;
+            left:40%;
+        }
+    .error {
+        color: red;
+    }
+</style>
+<div class="center">
+    @using (Html.BeginForm("Login", "Holding", FormMethod.Post, new { @id = "frm" }))
+    {
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <th colspan="2">
+                    Login
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    Username
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.LoginId, "", new { @id = "txtUserName" })
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    Password
+                </td>
+                <td>
+                    @Html.PasswordFor(m => m.Password, new { @id = "txtPassword" })
+                </td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="button" onclick="DoLogin()" value="Submit" />
+                </td>
+            </tr>
+        </table>
+    }
+</div>
+    <script type="text/javascript">
+        function DoLogin() {
+            debugger;
+            if ($("#txtUserName").val().trim() == "")
+                return;
+            if ($("#txtPassword").val().trim() == "")
+                return;
+            $("#frm").submit();
+        }
+            $(function () {
+                
+            });
+    </script>
+
