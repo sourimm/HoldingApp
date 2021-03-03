@@ -19,5 +19,6 @@ namespace HoldingDetails.Models
         public string InstanceId { get; set; }
         public string InstanceName { get; set; }
         public string PublicToken { get; set; }
+        public string AccessToken { get; set; }
     }
 }

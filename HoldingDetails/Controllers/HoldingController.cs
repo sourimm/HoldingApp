@@ -32,7 +32,7 @@ namespace HoldingDetails.Controllers
         // GET: Holding
         public ActionResult Holding()
         {
-            if (Session["LinkToken"] == null || Session["PublicToken"] == null)
+            if (Session["LinkToken"] == null || Session["AccessToken"] == null)
             {
                 return RedirectToAction("Connection");
             }
@@ -40,7 +40,7 @@ namespace HoldingDetails.Controllers
             HoldingResponse holdingResponce = null;
             List<HoldingDetails.Models.Holding> holdingList = null;
 
-            holdingResponce = helper.GetHoldings(Session["PublicToken"].ToString());
+            holdingResponce = helper.GetHoldings(Session["AccessToken"].ToString());
             if (holdingResponce != null)
             {
                 if (!string.IsNullOrEmpty(holdingResponce.ErrorMessage))
@@ -56,7 +56,7 @@ namespace HoldingDetails.Controllers
 
             //----------------------------
 
-            ViewBag.publicToken = Session["PublicToken"];
+           // ViewBag.publicToken = Session["PublicToken"];
             ViewBag.ClientId = ClientId;
             ViewBag.Secret = Secret;
             ViewBag.ApiUrl = ApiUrl;
@@ -113,6 +113,10 @@ namespace HoldingDetails.Controllers
         [HttpPost]
         public ActionResult Connection(string ConnectionDtl,string Action)
         {
+            if (Session["LinkToken"] != null)
+            {
+                ViewBag.LinkToken = Session["LinkToken"];
+            }
             if (!string.IsNullOrEmpty(Action) && Session["LoginDtl"] != null)
             {
                 ActionClass obj = JsonConvert.DeserializeObject<ActionClass>(Action);
@@ -120,8 +124,8 @@ namespace HoldingDetails.Controllers
                 {
                     using (PlaidEntities DB = new PlaidEntities())
                     {
-                        string publictoken = DB.tblInstances.Where(x => x.ConnectionId == obj.Id).Select(x => x.PublicToken).FirstOrDefault().ToString();
-                        Session["PublicToken"] = publictoken.Trim();
+                        string AccessToken = DB.tblInstances.Where(x => x.ConnectionId == obj.Id).Select(x => x.AccessToken).FirstOrDefault().ToString();
+                        Session["AccessToken"] = AccessToken.Trim();
                         return RedirectToAction("Holding");
                     }
                 }
@@ -161,14 +165,20 @@ namespace HoldingDetails.Controllers
             else if (!string.IsNullOrEmpty(ConnectionDtl) && Session["LoginDtl"] != null)
             {
                 tblInstance obj = JsonConvert.DeserializeObject<tblInstance>(ConnectionDtl);
-                tblUser loginDtl = (tblUser)Session["LoginDtl"];
-                obj.UserId = loginDtl.Id;
-                using (PlaidEntities DB = new PlaidEntities())
+                PublicTokenExchangeResponse publicTokenEx = helper.GetAccessToken(obj.PublicToken.Trim());
+                if (string.IsNullOrEmpty(publicTokenEx.ErrorCode))
                 {
-                    DB.tblInstances.Add(obj);
-                    DB.SaveChanges();
+                    tblUser loginDtl = (tblUser)Session["LoginDtl"];
+                    obj.UserId = loginDtl.Id;
+                    obj.AccessToken = publicTokenEx.AccessToken;
+                    using (PlaidEntities DB = new PlaidEntities())
+                    {
+                        DB.tblInstances.Add(obj);
+                        DB.SaveChanges();
+                    }
                 }
             }
+           
             using (PlaidEntities DB = new PlaidEntities())
             {
                 List<tblInstance> Instances = DB.tblInstances.Select(x => x).ToList<tblInstance>();

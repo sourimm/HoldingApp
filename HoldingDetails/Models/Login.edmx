@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PlaidModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PlaidModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tblInstance">
           <Key>
             <PropertyRef Name="ConnectionId" />
@@ -14,6 +14,7 @@
           <Property Name="InstanceId" Type="nchar" MaxLength="100" Nullable="false" />
           <Property Name="InstanceName" Type="nchar" MaxLength="200" Nullable="false" />
           <Property Name="PublicToken" Type="nchar" MaxLength="200" Nullable="false" />
+          <Property Name="AccessToken" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="tblUser">
           <Key>
@@ -29,8 +30,7 @@
           <EntitySet Name="tblInstance" EntityType="Self.tblInstance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PlaidModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -43,6 +43,7 @@
           <Property Name="InstanceId" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="InstanceName" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="PublicToken" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="AccessToken" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tblUser">
           <Key>
@@ -67,6 +68,7 @@
           <EntitySetMapping Name="tblInstances">
             <EntityTypeMapping TypeName="PlaidModel.tblInstance">
               <MappingFragment StoreEntitySet="tblInstance">
+                <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
                 <ScalarProperty Name="ConnectionId" ColumnName="ConnectionId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="InstanceId" ColumnName="InstanceId" />

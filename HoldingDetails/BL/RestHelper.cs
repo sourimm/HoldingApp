@@ -59,8 +59,19 @@ namespace HoldingDetails.BL
 
             return linkTokenResponse;
         }
+        public PublicTokenExchangeResponse GetAccessToken(string public_Token)
+        {
+            PublicTokenExchangeParam objExPrm = new PublicTokenExchangeParam();
+            objExPrm.ClientId = ClientId;
+            objExPrm.Secret = Secret;
+            objExPrm.PublicToken = public_Token;
 
-        public HoldingResponse GetHoldings(string public_Token)
+
+            IRestResponse response2 = RestCall(string.Format("{0}/item/public_token/exchange", ApiUrl), objExPrm);
+            PublicTokenExchangeResponse publicTokenEx = JsonConvert.DeserializeObject<PublicTokenExchangeResponse>(response2.Content);
+            return publicTokenEx;
+        }
+        public HoldingResponse GetHoldings(string AccessToken)
         {
             HoldingResponse HoldingDtl = new HoldingResponse();
 
@@ -76,28 +87,28 @@ namespace HoldingDetails.BL
                 IRestResponse response1 = RestCall(string.Format("{0}/sandbox/public_token/create", ApiUrl), obj);
                 PublicTokenResponse publicToken = JsonConvert.DeserializeObject<PublicTokenResponse>(response1.Content);
                 */
-                PublicTokenExchangeParam objExPrm = new PublicTokenExchangeParam();
-                objExPrm.ClientId = ClientId;
-                objExPrm.Secret = Secret;
-                objExPrm.PublicToken = public_Token;
+                //PublicTokenExchangeParam objExPrm = new PublicTokenExchangeParam();
+                //objExPrm.ClientId = ClientId;
+                //objExPrm.Secret = Secret;
+                //objExPrm.PublicToken = public_Token;
                 
 
-                IRestResponse response2 = RestCall(string.Format("{0}/item/public_token/exchange", ApiUrl), objExPrm);
-                PublicTokenExchangeResponse publicTokenEx = JsonConvert.DeserializeObject<PublicTokenExchangeResponse>(response2.Content);
-                if (String.IsNullOrEmpty(publicTokenEx.ErrorCode))
-                {
+                //IRestResponse response2 = RestCall(string.Format("{0}/item/public_token/exchange", ApiUrl), objExPrm);
+                //PublicTokenExchangeResponse publicTokenEx = JsonConvert.DeserializeObject<PublicTokenExchangeResponse>(response2.Content);
+                //if (String.IsNullOrEmpty(publicTokenEx.ErrorCode))
+                //{
                     HoldingReqParam objHoldPrm = new HoldingReqParam();
                     objHoldPrm.ClientId = ClientId;
                     objHoldPrm.Secret = Secret;
-                    objHoldPrm.AccessToken = publicTokenEx.AccessToken;
+                    objHoldPrm.AccessToken = AccessToken;
 
                     IRestResponse response3 = RestCall(string.Format("{0}/investments/holdings/get", ApiUrl), objHoldPrm);
                     HoldingDtl = JsonConvert.DeserializeObject<HoldingResponse>(response3.Content);
-                }
-                else
-                {
-                    HoldingDtl.ErrorMessage = publicTokenEx.ErrorMessage;
-                }
+                //}
+                //else
+                //{
+                //    HoldingDtl.ErrorMessage = publicTokenEx.ErrorMessage;
+                //}
             }
             catch (Exception ex)
             {

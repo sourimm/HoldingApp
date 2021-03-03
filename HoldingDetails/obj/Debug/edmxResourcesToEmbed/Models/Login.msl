@@ -4,6 +4,7 @@
     <EntitySetMapping Name="tblInstances">
       <EntityTypeMapping TypeName="PlaidModel.tblInstance">
         <MappingFragment StoreEntitySet="tblInstance">
+          <ScalarProperty Name="AccessToken" ColumnName="AccessToken" />
           <ScalarProperty Name="ConnectionId" ColumnName="ConnectionId" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="InstanceId" ColumnName="InstanceId" />

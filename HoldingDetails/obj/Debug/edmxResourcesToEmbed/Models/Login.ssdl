@@ -9,6 +9,7 @@
     <Property Name="InstanceId" Type="nchar" MaxLength="100" Nullable="false" />
     <Property Name="InstanceName" Type="nchar" MaxLength="200" Nullable="false" />
     <Property Name="PublicToken" Type="nchar" MaxLength="200" Nullable="false" />
+    <Property Name="AccessToken" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="tblUser">
     <Key>
